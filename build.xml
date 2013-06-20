@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<project xmlns:ivy="antlib:org.apache.ivy.ant" name="migratesdk" default="dist" basedir=".">
+    <property name="name" value="migrate-sdk"/>
+
+    <property name="lib" value="lib"/>
+    <property name="deps" value="deps"/>
+    <property name="src" value="src"/>
+
+    <property name="build.home" value="${basedir}/build"/>
+    <property name="build.classes" value="${build.home}/classes"/>
+    <property name="build.dist" value="${build.home}/dist"/>
+    <property name="build.dist.lib" value="${build.dist}/lib"/>
+
+    <target name="rebuild" depends="clean,dist"/>
+
+    <property name="ivy.install.version" value="2.3.0-rc1"/>
+    <property name="ivy.jar.dir" value="${basedir}/ivy"/>
+    <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar"/>
+
+    <target name="download-ivy" unless="skip.download">
+        <mkdir dir="${ivy.jar.dir}"/>
+        <!--
+        download Ivy from web site so that it can be used even without any special installation
+        -->
+        <echo message="installing ivy..."/>
+        <get src="http://repo1.maven.org/maven2/org/apache/ivy/ivy/${ivy.install.version}/ivy-${ivy.install.version}.jar" dest="${ivy.jar.file}" usetimestamp="true"/>
+    </target>
+
+    <target name="install-ivy" depends="download-ivy" description="--> install ivy">
+        <!--
+         try to load ivy here from local ivy dir, in case the user has not already dropped it into
+         ant's lib dir (note that the latter copy will always take precedence). We will not fail as
+         long as local lib dir exists (it may be empty) and ivy is in at least one of ant's lib dir
+         or the local lib dir.
+        -->
+        <path id="ivy.lib.path">
+            <fileset dir="${ivy.jar.dir}" includes="*.jar"/>
+        </path>
+        <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
+    </target>
+
+    <target name="resolve" description="--> resolve ivy dependencies" depends="install-ivy">
+        <property name="ivy.dep.file" value="${basedir}/ivy.xml" />
+        <property name="ivy.lib.dir" value="${build.dist.lib}" />
+        <ivy:retrieve />
+    </target>
+
+    <target name="clean" description="Delete old build and dist directories">
+        <delete dir="${build.home}"/>
+    </target>
+
+    <path id="compile.classpath">
+        <fileset dir="lib">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="${build.dist.lib}">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="deps">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+    <target name="compile" depends="resolve">
+        <mkdir dir="${build.classes}"/>
+
+        <javac srcdir="${src}" destdir="${build.classes}">
+            <classpath refid="compile.classpath"/>
+        </javac>
+    </target>
+
+    <target name="dist" depends="compile" description="Create binary distribution">
+        <mkdir dir="${build.dist.lib}"/>
+
+        <copy todir="${build.dist.lib}/">
+            <fileset dir="lib" includes="*.jar"/>
+        </copy>
+        <copy todir="${build.dist.lib}/">
+            <fileset dir="deps" includes="*.jar"/>
+        </copy>
+
+        <copy todir="${build.dist}/">
+            <fileset dir="${basedir}" includes="migrate-sdk.xml"/>
+        </copy>
+
+        <jar jarfile="${build.dist.lib}/${name}.jar" basedir="${build.classes}"/>
+    </target>
+</project>

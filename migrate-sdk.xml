@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<project name="migrateSDK" basedir=".">
+    <property name="sdk.android.platform" value=""/>
+
+    <dirname property="imported.basedir" file="${ant.file.migrateSDK}"/>
+
+    <path id="migrate-sdk.classpath">
+        <fileset dir="${imported.basedir}/lib">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+    <target name="sdk.generateContract">
+        <property name="contract.classpath" value=""/>
+        <property name="contract.apis" value=""/>
+        <property name="destinationDirectory" value=""/>
+
+        <java fork="true" failonerror="yes" classname="com.migrate.tools.PostSchema" classpathref="migrate-sdk.classpath">
+            <classpath>
+                <fileset dir="${sdk.android.platform}">
+                    <include name="android.jar"/>
+                </fileset>
+            </classpath>
+
+            <arg value="-cp"/>
+            <arg value="${contract.classpath}"/>
+            <arg value="-api"/>
+            <arg value="${contract.apis}"/>
+            <arg value="-d"/>
+            <arg value="${destinationDirectory}"/>
+        </java>
+    </target>
+
+    <target name="sdk.postSchema">
+        <property name="contract.classpath" value=""/>
+        <property name="contract.apis" value=""/>
+        <property name="migrateURL" value=""/>
+
+        <java fork="true" failonerror="yes" classname="com.migrate.tools.PostSchema" classpathref="migrate-sdk.classpath">
+            <classpath>
+                <fileset dir="${sdk.android.platform}">
+                    <include name="android.jar"/>
+                </fileset>
+            </classpath>
+
+            <arg value="-cp"/>
+            <arg value="${contract.classpath}"/>
+            <arg value="-api"/>
+            <arg value="${contract.apis}"/>
+            <arg value="-migrateURL"/>
+            <arg value="${migrateURL}"/>
+        </java>
+    </target>
+</project>
