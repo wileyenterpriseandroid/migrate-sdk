@@ -1,3 +1,3 @@
+Builds the migrate SDK.
 
-= Migrate Project SDK
 

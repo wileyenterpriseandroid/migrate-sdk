@@ -7,8 +7,8 @@
     <!-- Migrate properties can be specified by editing this file, in migrate.properties, or on the command line -->
     <property file="${basedir}/migrate.properties" />
 
-    <!-- The location of the Migrate SDK: specify in migrate.properties  -->
-    <property name="migrate.sdk.root" value="" />
+    <!-- The location of the Migrate SDK: specify in migrate.properties -->
+    <property name="migrate.sdk.root" value="migrate-sdk" />
 
     <!-- The endpoint for the Migrate Service -->
     <property name="migrate.endpoint" value="" />
