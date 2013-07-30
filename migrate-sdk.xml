@@ -6,7 +6,10 @@
     <dirname property="imported.basedir" file="${ant.file.migrateSDK}"/>
 
     <path id="migrate-sdk.classpath">
-        <fileset dir="${imported.basedir}/lib">
+        <fileset dir="${imported.basedir}/lib/impl">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="${imported.basedir}/lib/api">
             <include name="*.jar"/>
         </fileset>
     </path>

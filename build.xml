@@ -11,6 +11,8 @@
     <property name="build.classes" value="${build.home}/classes"/>
     <property name="build.dist" value="${build.home}/dist"/>
     <property name="build.dist.lib" value="${build.dist}/lib"/>
+    <property name="build.dist.lib.api" value="${build.dist.lib}/api"/>
+    <property name="build.dist.lib.impl" value="${build.dist.lib}/impl"/>
 
     <target name="rebuild" depends="clean,dist"/>
 
@@ -42,7 +44,7 @@
 
     <target name="resolve" description="--> resolve ivy dependencies" depends="install-ivy">
         <property name="ivy.dep.file" value="${basedir}/ivy.xml" />
-        <property name="ivy.lib.dir" value="${build.dist.lib}" />
+        <property name="ivy.lib.dir" value="${build.dist.lib.impl}" />
         <ivy:retrieve />
     </target>
 
@@ -54,7 +56,7 @@
         <fileset dir="lib">
             <include name="*.jar"/>
         </fileset>
-        <fileset dir="${build.dist.lib}">
+        <fileset dir="${build.dist.lib.impl}">
             <include name="*.jar"/>
         </fileset>
         <fileset dir="deps">
@@ -71,12 +73,12 @@
     </target>
 
     <target name="dist" depends="compile" description="Create binary distribution">
-        <mkdir dir="${build.dist.lib}"/>
+        <mkdir dir="${build.dist.lib.impl}"/>
 
-        <copy todir="${build.dist.lib}/">
+        <copy todir="${build.dist.lib.api}/">
             <fileset dir="lib" includes="*.jar"/>
         </copy>
-        <copy todir="${build.dist.lib}/">
+        <copy todir="${build.dist.lib.impl}/">
             <fileset dir="deps" includes="*.jar"/>
         </copy>
 
@@ -84,6 +86,6 @@
             <fileset dir="${basedir}" includes="migrate-sdk.xml"/>
         </copy>
 
-        <jar jarfile="${build.dist.lib}/${name}.jar" basedir="${build.classes}"/>
+        <jar jarfile="${build.dist.lib.impl}/${name}.jar" basedir="${build.classes}"/>
     </target>
 </project>

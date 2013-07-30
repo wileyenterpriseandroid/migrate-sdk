@@ -34,19 +34,17 @@ public class ContractBuilder {
                 .append(LS)
                 .append("import net.migrate.api.Webdata;")
                 .append(LS)
-//                .append("import ").append(qualifiedName).append(';')
-//                .append(LS)
                 .append(LS);
 
         contractClassName = unqualifiedName + CONTRACT;
-        String columnsName = unqualifiedName + COLUMNS;
+        String columnsName = COLUMNS;
         contractBuilder
                 .append("public final class ").append(contractClassName).append(" {")
                 .append(LS)
                 .append(INDENT).append("private ").append(contractClassName).append("() {}")
                 .append(LS)
                 .append(LS)
-                .append(INDENT).append("public static final String SCHEMA_ID = ").append(unqualifiedName).append(".class.getName();")
+                .append(INDENT).append("public static final String SCHEMA_ID = \"").append(qualifiedName).append("\";")
                 .append(LS)
                 .append(LS)
                 .append(INDENT).append("public static final Uri SCHEMA_").append(upperUnqualifiedName).append("_URI = Webdata.Schema.schemaUri(SCHEMA_ID);")
