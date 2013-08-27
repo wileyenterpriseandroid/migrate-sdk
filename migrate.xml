@@ -4,17 +4,36 @@
     <property file="${user.home}/.${ant.project.name}.properties" />
     <property file="${user.home}/.build.properties" />
 
-    <!-- Migrate properties can be specified by editing this file, in migrate.properties, or on the command line -->
+    <!-- 
+       C O N F I G U R A T I O N
+
+       Migrate properties can be specified by editing this file (NOT recommended),
+       in migrate.properties, or on the command line.
+       There is a copy of a typical migrate.properties file in the tools
+       directory (./tools).  Copy it to the project root and modify it as necessary,
+       to suit your system.  When you have it set up, type:
+
+       $ ant -f migrate.xml
+
+       ... to build the Contract file in the gen directory
+
+       To specify the necessary properties on the command line use the -D flag
+
+       $ ant -Dmigrate.sdk.root=../../migrate-sdk  ...
+
+       You may supply as many -D flags as you like.  They override values defined
+       in the migrate.properties file.
+    -->
     <property file="${basedir}/migrate.properties" />
 
-    <!-- The location of the Migrate SDK: specify in migrate.properties -->
-    <property name="migrate.sdk.root" value="migrate-sdk" />
+    <!-- The location of the Migrate SDK: specify in migrate.properties  -->
+    <property name="migrate.sdk.root" value="" />
 
     <!-- The endpoint for the Migrate Service -->
     <property name="migrate.endpoint" value="" />
 
     <!-- The fqn for the class that defines the migrate schema: specify in migrate.properties  -->
-    <property name="migrate.object" value="com.enterpriseandroid.webdataContacts.Contact" />
+    <property name="migrate.object" value="" />
 
     <!-- The root of the directory containing the template interface: specify in migrate.properties  -->
     <property name="migrate.class.root" value="bin/classes/" />
@@ -34,6 +53,7 @@
             </not>
         </condition>
     </fail>
+
     <import file="${migrate.sdk.root}/migrate-sdk.xml" />
 
     <!-- check on migrate.class.root -->
@@ -68,8 +88,7 @@
         </antcall>
     </target>
 
-    <target name="postSchema"
-        description="Post a schema to remote migrate service">
+    <target name="postSchema" description="Post a schema to remote migrate service">
         <antcall target="sdk.postSchema">
             <param name="contract.classpath" value="${migrate.class.root}" />
             <param name="contract.apis" value="${migrate.object}" />

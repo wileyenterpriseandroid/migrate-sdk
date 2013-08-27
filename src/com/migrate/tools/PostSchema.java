@@ -1,11 +1,9 @@
 package com.migrate.tools;
 
-import com.migrate.storage.impl.JsonHelper;
-import com.migrate.webdata.model.BasePersistentObject;
-import net.migrate.api.Webdata;
-import net.migrate.api.annotations.WebdataSchema;
 import com.migrate.webdata.model.PersistentSchema;
 import com.migrate.webdata.model.PropertyIndex;
+import net.migrate.api.Webdata;
+import net.migrate.api.annotations.WebdataSchema;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -19,12 +17,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Takes a jar and a class, then generates json-schema, and puts it in a webdata
@@ -161,7 +154,7 @@ public class PostSchema {
         persistentSchema.setJsonSchema(jsonSchema);
 
         contractBuilder.end();
-        System.out.println(destDirectory);
+
         if ((destDirectory != null) && (!"".equals(destDirectory))) {
             writeContractSource(destDirectory, contractBuilder);
         }
@@ -169,7 +162,7 @@ public class PostSchema {
         // do this with annotations
         List<PropertyIndex> indexList = creatIndexList();
         persistentSchema.setIndexList(indexList);
-        System.out.println(new String(JsonHelper.writeValueAsByte(persistentSchema)));
+//        System.out.println(new String(JsonHelper.writeValueAsByte(persistentSchema)));
         return persistentSchema;
     }
 
@@ -201,7 +194,7 @@ public class PostSchema {
         }
         FileOutputStream fout = new FileOutputStream(finalPackageDir +
                 File.separator + contractBuilder.getContractClassName() + ".java");
-        System.out.println(new String(contractBuilder.build().getBytes()));
+//        System.out.println(new String(contractBuilder.build().getBytes()));
         fout.write(contractBuilder.build().getBytes());
         fout.flush();
         fout.close();
@@ -251,7 +244,7 @@ public class PostSchema {
                 Map<String, String> typeMap = new HashMap<String, String>();
 
                 Class returnType = m.getReturnType();
-                System.out.println(" return type: " + returnType);
+
                 if (String.class.isAssignableFrom(returnType)) {
                     typeMap.put(TYPE, "string");
                 } else if (int.class.isAssignableFrom(returnType)) {
@@ -308,9 +301,9 @@ public class PostSchema {
         HttpHeaders header = new HttpHeaders();
         header.add("content-type", "application/json");
 
-        // TODO: the slash must be present or the schema name is truncated to only the package!!!!!!! WTF?
+        // TODO: the slash must be present or the schema name is truncated to only the package...
         String migrateURL = dest + SCHEMA_TYPE + "/";
-        System.out.println(" migrateURL: " + migrateURL);
+//        System.out.println(" migrateURL: " + migrateURL);
         HttpEntity<PersistentSchema> requestEntity =
                 new HttpEntity<PersistentSchema>(persistentSchema, header);
 
