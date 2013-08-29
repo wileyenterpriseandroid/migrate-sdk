@@ -3,6 +3,11 @@
 <project xmlns:ivy="antlib:org.apache.ivy.ant" name="migratesdk" default="dist" basedir=".">
     <property name="name" value="migrate-sdk"/>
 
+    <property name="migrate.service.dir" value="${basedir}/../migrate"/>
+    <property name="migrate.client.dir" value="${basedir}/../migrate-client/android/migrate-client"/>
+
+    <property name="migrate.sdk.archive" value="migrate-sdk-beta"/>
+
     <property name="lib" value="lib"/>
     <property name="deps" value="deps"/>
     <property name="src" value="src"/>
@@ -10,7 +15,8 @@
     <property name="build.home" value="${basedir}/build"/>
     <property name="build.classes" value="${build.home}/classes"/>
     <property name="build.dist" value="${build.home}/dist"/>
-    <property name="build.dist.lib" value="${build.dist}/lib"/>
+    <property name="build.dist.archive.dir" value="${build.home}/dist/${migrate.sdk.archive}"/>
+    <property name="build.dist.lib" value="${build.dist.archive.dir}/lib"/>
     <property name="build.dist.lib.api" value="${build.dist.lib}/api"/>
     <property name="build.dist.lib.impl" value="${build.dist.lib}/impl"/>
 
@@ -82,10 +88,24 @@
             <fileset dir="deps" includes="*.jar"/>
         </copy>
 
-        <copy todir="${build.dist}/">
+        <copy todir="${build.dist.archive.dir}/">
             <fileset dir="${basedir}" includes="migrate-sdk.xml"/>
         </copy>
 
         <jar jarfile="${build.dist.lib.impl}/${name}.jar" basedir="${build.classes}"/>
+    </target>
+
+    <target name="prepare">
+        <copy file="${basedir}/migrate.xml" todir="${build.dist.archive.dir}"/>
+
+        <copy file="${migrate.service.dir}/dist/migrate.war" todir="${build.dist.archive.dir}"/>
+        <copy file="${migrate.service.dir}/dist/migrate-model.jar" todir="${build.home}"/>
+
+        <copy file="${migrate.client.dir}/build/dist/libs/migrate-api.jar" todir="${lib}"/>
+        <copy file="${migrate.client.dir}/migrate-client.apk" todir="${build.dist.archive.dir}"/>
+    </target>
+
+    <target name="dist.full" depends="prepare,dist" >
+        <zip file="${build.dist}/${migrate.sdk.archive}.zip" basedir="${build.dist}" includes="${migrate.sdk.archive}/**/*"/>
     </target>
 </project>

@@ -2,8 +2,8 @@ package com.migrate.tools;
 
 import com.migrate.webdata.model.PersistentSchema;
 import com.migrate.webdata.model.PropertyIndex;
-import net.migrate.api.Webdata;
-import net.migrate.api.annotations.WebdataSchema;
+import net.migrate.api.WebData;
+import net.migrate.api.annotations.WebDataSchema;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -20,7 +20,7 @@ import java.net.URLClassLoader;
 import java.util.*;
 
 /**
- * Takes a jar and a class, then generates json-schema, and puts it in a webdata
+ * Takes a jar and a class, then generates json-schema, and puts it in a WebData
  * service instance.  The class should implement APISource and return an array
  * containing the APIs for which this tool will put schema.
  */
@@ -141,15 +141,15 @@ public class PostSchema {
 
         Map<String, Object> properties = getProperties(apiClass, contractBuilder);
 
-        // These fields are required for the basic operation of webdata synchronization
-        addProperty(properties, Webdata.Schema.WD_DATA_ID, "string", true); // this is a data uuid
-        addProperty(properties, Webdata.Schema.WD_VERSION, "integer", true);
-        addProperty(properties, Webdata.Schema.WD_DELETED, "integer", true);
-        addProperty(properties, Webdata.Schema.WD_UPDATETIME, "long", true);
-        addProperty(properties, Webdata.Schema.WD_NAMESPACE, "string");
-        addProperty(properties, Webdata.Schema.WD_CLASSNAME, "string");
+        // These fields are required for the basic operation of WebData synchronization
+        addProperty(properties, WebData.Object.WD_DATA_ID, "string", true); // this is a data uuid
+        addProperty(properties, WebData.Schema.WD_VERSION, "integer", true);
+        addProperty(properties, WebData.Object.WD_DELETED, "integer", true);
+        addProperty(properties, WebData.Schema.WD_UPDATETIME, "long", true);
+        addProperty(properties, WebData.Schema.WD_NAMESPACE, "string");
+        addProperty(properties, WebData.Schema.WD_CLASSNAME, "string");
 
-        jsonSchema.put(Webdata.Schema.JS_PROPERTIES, properties);
+        jsonSchema.put(WebData.Schema.JS_PROPERTIES, properties);
 
         persistentSchema.setJsonSchema(jsonSchema);
 
@@ -211,11 +211,11 @@ public class PostSchema {
     private static String readVersion(Class apiClass, ContractBuilder apiBuilder)
             throws MalformedSchemaDeclarationException
     {
-        WebdataSchema schemaAnnotation = (WebdataSchema)
-                apiClass.getAnnotation(WebdataSchema.class);
+        WebDataSchema schemaAnnotation = (WebDataSchema)
+                apiClass.getAnnotation(WebDataSchema.class);
         if (schemaAnnotation == null) {
             throw new MalformedSchemaDeclarationException("Missing annotation: " +
-                    WebdataSchema.class.getName());
+                    WebDataSchema.class.getName());
         }
         String version = schemaAnnotation.version();
         if (version == null) {
