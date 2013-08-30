@@ -32,7 +32,7 @@ public class ContractBuilder {
                 .append(LS)
                 .append("import android.provider.BaseColumns;")
                 .append(LS)
-                .append("import net.migrate.api.Webdata;")
+                .append("import net.migrate.api.WebData;")
                 .append(LS)
                 .append(LS);
 
@@ -47,9 +47,9 @@ public class ContractBuilder {
                 .append(INDENT).append("public static final String SCHEMA_ID = \"").append(qualifiedName).append("\";")
                 .append(LS)
                 .append(LS)
-                .append(INDENT).append("public static final Uri SCHEMA_").append(upperUnqualifiedName).append("_URI = Webdata.Schema.schemaUri(SCHEMA_ID);")
+                .append(INDENT).append("public static final Uri SCHEMA_").append(upperUnqualifiedName).append("_URI = WebData.Schema.schemaUri(SCHEMA_ID);")
                 .append(LS)
-                .append(INDENT).append("public static final Uri OBJECT_").append(upperUnqualifiedName).append("_URI = Webdata.Object.objectUri(SCHEMA_ID);")
+                .append(INDENT).append("public static final Uri OBJECT_").append(upperUnqualifiedName).append("_URI = WebData.Object.objectUri(SCHEMA_ID);")
                 .append(LS)
                 .append(LS)
                 .append(INDENT).append("public static final class ").append(columnsName).append(" implements BaseColumns {")
