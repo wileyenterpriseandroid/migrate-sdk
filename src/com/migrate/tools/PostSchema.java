@@ -103,6 +103,7 @@ public class PostSchema {
         }
         return argMap;
     }
+
     private static void postSchemasAndBuildContracts(String api, URLClassLoader apiLoader,
                                                      String migrateURL, String destDirectory)
             throws ClassNotFoundException, IOException, MalformedSchemaDeclarationException
@@ -145,7 +146,7 @@ public class PostSchema {
         addProperty(properties, WebData.Object.WD_DATA_ID, "string", true); // this is a data uuid
         addProperty(properties, WebData.Schema.WD_VERSION, "integer", true);
         addProperty(properties, WebData.Object.WD_DELETED, "integer", true);
-        addProperty(properties, WebData.Schema.WD_UPDATETIME, "long", true);
+        addProperty(properties, WebData.Schema.WD_DATA_UPDATE_TIME, "long", true);
         addProperty(properties, WebData.Schema.WD_NAMESPACE, "string");
         addProperty(properties, WebData.Schema.WD_CLASSNAME, "string");
 
