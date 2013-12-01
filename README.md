@@ -1,5 +1,5 @@
 
-# Builds the Migrate binary SDK.
+# The the Migrate SDK.
 
 ## Getting the code
 
