@@ -1,5 +1,5 @@
 
-# The the Migrate SDK.
+# The Migrate SDK.
 
 ## Getting the code
 
