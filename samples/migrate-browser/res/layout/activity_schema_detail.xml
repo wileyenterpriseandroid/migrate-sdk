@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:columnCount="2"
+        >
+
+    <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:columnCount="2"
+            >
+
+        <TextView
+                android:id="@+id/activity_schema_detail_schemaid_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/schema_detail_schemaid_label"
+                android:textSize="@dimen/list_font_size"
+                android:textStyle="bold"
+                />
+        <TextView
+                android:id="@+id/activity_schema_detail_schemaid_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/list_font_size"
+                android:textStyle="bold"
+                />
+
+        <TextView
+                android:id="@+id/activity_schema_detail_version_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/schema_detail_version_text"
+                android:textSize="@dimen/list_font_size"
+                android:textStyle="bold"
+                />
+        <TextView
+                android:id="@+id/activity_schema_detail_version_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/list_font_size"
+                android:textStyle="bold"
+                />
+
+        <TextView
+                android:id="@+id/activity_schema_detail_status_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/schema_detail_status_text"
+                android:textSize="@dimen/list_font_size"
+                android:textStyle="bold"
+                />
+        <TextView
+                android:id="@+id/activity_schema_detail_status_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/list_font_size"
+                android:textStyle="bold"
+                />
+
+        <TextView
+                android:id="@+id/activity_schema_detail_schema_update_time_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/schema_detail_schema_update_time_text"
+                android:textSize="@dimen/list_font_size"
+                android:textStyle="bold"
+                />
+        <TextView
+                android:id="@+id/activity_schema_detail_schema_update_time_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/list_font_size"
+                android:textStyle="bold"
+                />
+
+        <TextView
+                android:id="@+id/activity_schema_detail_data_update_time_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/schema_detail_data_update_time_text"
+                android:textSize="@dimen/list_font_size"
+                android:textStyle="bold"
+                />
+        <TextView
+                android:id="@+id/activity_schema_detail_data_update_time_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/list_font_size"
+                android:textStyle="bold"
+                />
+
+        <TextView
+                android:id="@+id/activity_schema_detail_classname_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/schema_detail_data_classname_text"
+                android:textSize="@dimen/list_font_size"
+                android:textStyle="bold"
+                />
+        <TextView
+                android:id="@+id/activity_schema_detail_classname_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/list_font_size"
+                android:textStyle="bold"
+                />
+
+        <TextView
+                android:id="@+id/activity_schema_detail_namespace_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/schema_detail_namespace_text"
+                android:textSize="@dimen/list_font_size"
+                android:textStyle="bold"
+                />
+        <TextView
+                android:id="@+id/activity_schema_namespace_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/list_font_size"
+                android:textStyle="bold"
+                />
+
+    </GridLayout>
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            >
+        <Button
+                android:id="@+id/activity_schema_detail_activate_sync_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/schema_detail_activate_sync"
+                />
+        <Button
+                android:id="@+id/activity_schema_detail_query_objects_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/schema_detail_query"
+                android:enabled="false"
+                />
+    </LinearLayout>
+</RelativeLayout>

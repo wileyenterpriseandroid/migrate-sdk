@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+        >
+
+    <GridLayout
+            android:id="@+id/activity_resolve_field_grid"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:useDefaultMargins="true"
+            android:alignmentMode="alignBounds"
+            android:layout_alignParentTop="true"
+
+            android:columnCount="2"
+            >
+
+        <TextView
+                android:id="@+id/activity_resolve_resolve_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/resolve_field_resolve"
+                android:textSize="@dimen/conflict_font_size"
+                android:textStyle="bold"
+                />
+        <TextView
+                android:id="@+id/activity_resolve_field_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/resolve_field_header"
+                android:textSize="@dimen/conflict_font_size"
+                android:textStyle="bold"
+                />
+    </GridLayout>
+
+    <Button
+            android:id="@+id/activity_resolve_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:text="@string/resolve_conflict" />
+
+</RelativeLayout>

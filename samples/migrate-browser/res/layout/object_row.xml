@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+        >
+
+    <TextView
+            android:id="@+id/row_object_data_id_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="4dp"
+            android:textSize="@dimen/list_font_size"
+            android:textStyle="bold"
+            android:textIsSelectable="false" />
+    <TextView
+            android:id="@+id/row_object_data_id_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="4dp"
+            android:textSize="@dimen/list_font_size"
+            android:textStyle="bold"
+            android:textIsSelectable="false" />
+
+
+    <TextView
+            android:id="@+id/row_object_data_version_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="3dp"
+            android:textSize="@dimen/list_font_size"
+            android:textIsSelectable="false" />
+    <TextView
+            android:id="@+id/row_object_data_version_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="3dp"
+            android:textSize="@dimen/list_font_size"
+            android:textIsSelectable="false" />
+
+</GridLayout>

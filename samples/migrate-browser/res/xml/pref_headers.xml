@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <header
+        android:fragment="com.migrate.browser.PrefsFragment"
+        android:title="@string/prefs_heading" />
+
+</preference-headers>
