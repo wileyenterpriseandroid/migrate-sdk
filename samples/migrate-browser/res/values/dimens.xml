@@ -2,6 +2,6 @@
 <resources>
     <dimen name="conflict_size">30dp</dimen>
     <dimen name="conflict_font_size">16sp</dimen>
-    <dimen name="list_font_size">6pt</dimen>
-    <dimen name="detail_font_size">6pt</dimen>
+    <dimen name="list_font_size">5pt</dimen>
+    <dimen name="detail_font_size">5pt</dimen>
 </resources>

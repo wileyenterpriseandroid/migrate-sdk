@@ -9,7 +9,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.BaseColumns;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -17,15 +16,13 @@ import android.widget.*;
 import net.migrate.api.WebData;
 import org.json.JSONObject;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ResolveObjectActivity extends Activity {
     private static final String TAG = "";
 
     public static final String KEY_URI = "object_uri";
-    public static final String KEY_SCHEMA = "schema";
+    public static final String KEY_SCHEMA_JSON = "json_schema";
 
     private Uri objectDataUri;
     private Uri conflictUri;
@@ -37,25 +34,12 @@ public class ResolveObjectActivity extends Activity {
 
     private int conflictVersion;
 
-    public static final String[] BASE_OBJECT_PROJ = new String[] {
-            BaseColumns._ID,
-            WebData.Object.WD_DATA_ID,
-            WebData.Object.WD_IN_CONFLICT,
-            WebData.Object.WD_VERSION
-    };
-
-    public static final String[] BASE_CONFLICT_PROJ = new String[] {
-            BaseColumns._ID,
-            WebData.Object.WD_DATA_ID,
-            WebData.Object.WD_VERSION
-    };
-
     private Map<String, Object> object;
     private Map<String, Object> conflict;
-    private Map<String, Object> resolved;
+    private Map<String, Object> resolved  = new HashMap<String, Object>();
 
     private GridLayout fieldGrid;
-    public List checkBoxes;
+    public ArrayList checkBoxes = new ArrayList();
 
     public ResolveObjectActivity() {
         super();
@@ -63,6 +47,8 @@ public class ResolveObjectActivity extends Activity {
 
     private JSONObject jsonSchema;
     private String jsonSchemaString;
+    private String[] objectProj;
+    private String[] conflictProj;
 
     @Override
     protected void onCreate(Bundle state) {
@@ -75,11 +61,13 @@ public class ResolveObjectActivity extends Activity {
         String uri = null;
         if (null != state) {
             uri = state.getString(KEY_URI);
-            jsonSchemaString = state.getString(KEY_SCHEMA);
+            jsonSchemaString = state.getString(KEY_SCHEMA_JSON);
         }
 
         if (null != jsonSchemaString) {
-            jsonSchema = Schema.loadSchema(jsonSchemaString);
+            jsonSchema = SchemaHandler.loadSchema(jsonSchemaString);
+            objectProj = SchemaHandler.buildObjectProj(jsonSchema);
+            conflictProj = SchemaHandler.buildConflictProj(jsonSchema);
         }
 
         if (null != uri) {
@@ -146,6 +134,8 @@ public class ResolveObjectActivity extends Activity {
             }
         }
 
+        resolvedValues.put(WebData.Object.WD_VERSION, conflictVersion);
+
         ResolveConflictTask resolveTask = new ResolveConflictTask(resolvedValues);
         resolveTask.doInBackground();
     }
@@ -174,7 +164,7 @@ public class ResolveObjectActivity extends Activity {
             return new CursorLoader(
                     ResolveObjectActivity.this,
                     objectDataUri,
-                    BASE_OBJECT_PROJ,
+                    objectProj,
                     null,
                     null,
                     null);
@@ -191,7 +181,6 @@ public class ResolveObjectActivity extends Activity {
 
             conflictDataUri = conflictUri.buildUpon().appendPath(dataId).build();
 
-            Schema.loadSchema(jsonSchemaString);
             object = MigrateBrowserApplication.loadObject(data, jsonSchema);
 
             if (null != conflictUri) {
@@ -212,7 +201,7 @@ public class ResolveObjectActivity extends Activity {
             return new CursorLoader(
                     ResolveObjectActivity.this,
                     conflictUri,
-                    BASE_CONFLICT_PROJ,
+                    conflictProj,
                     null,
                     null,
                     null);
@@ -237,10 +226,8 @@ public class ResolveObjectActivity extends Activity {
         conflictVersion = Integer.parseInt((TextUtils.isEmpty(s)) ? "" : s);
         conflict = MigrateBrowserApplication.loadObject(c, jsonSchema);
 
-        Iterator<Map.Entry<String, Object>> objectIter =
-                (Iterator<Map.Entry<String, Object>>) object.entrySet();
-        Iterator<Map.Entry<String, Object>> conflictIter =
-                (Iterator<Map.Entry<String, Object>>) conflict.entrySet();
+        Iterator<Map.Entry<String, Object>> objectIter = object.entrySet().iterator();
+        Iterator<Map.Entry<String, Object>> conflictIter = conflict.entrySet().iterator();
 
         while (objectIter.hasNext()) {
             Map.Entry<String, Object> entry = objectIter.next();
@@ -248,6 +235,7 @@ public class ResolveObjectActivity extends Activity {
 
             TextView label = new TextView(this);
             CheckBox checkBox = new CheckBox(this);
+            checkBoxes.add(checkBox);
             Spinner spinner = new Spinner(this);
 
             String name = entry.getKey();

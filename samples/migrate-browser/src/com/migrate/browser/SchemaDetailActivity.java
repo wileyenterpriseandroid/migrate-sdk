@@ -93,7 +93,7 @@ public class SchemaDetailActivity extends Activity
         }
 
         jsonSchemaString = WebData.Object.getString(cursor, WebData.Schema.JS_PROPERTIES);
-        jsonSchema = Schema.loadSchema(jsonSchemaString);
+        jsonSchema = SchemaHandler.loadSchema(jsonSchemaString);
     }
 
     @Override

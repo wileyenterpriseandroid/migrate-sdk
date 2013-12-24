@@ -191,6 +191,14 @@ public class ObjectsActivity extends BaseActivity
             intent.putExtra(ResolveObjectActivity.KEY_URI, dataUri.toString());
         }
 
+        if (null != schemaId) {
+            intent.putExtra(ObjectDetailActivity.KEY_SCHEMA_ID, schemaId);
+        }
+
+        if (null != jsonSchemaString) {
+            intent.putExtra(ResolveObjectActivity.KEY_SCHEMA_JSON, jsonSchemaString);
+        }
+
         startActivity(intent);
     }
 

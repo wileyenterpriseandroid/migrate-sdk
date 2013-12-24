@@ -43,6 +43,8 @@ public class MigrateBrowserApplication extends Application
                 if (WebData.Schema.JS_STRING.equals(type)) {
                     String s = WebData.Object.getString(c, key);
                     loadedObject.put(key, s);
+                } else if (WebData.Schema.JS_LONG.equals(type)) {
+                    int i = WebData.Object.getInt(c, key);
                 } else if (WebData.Schema.JS_INTEGER.equals(type)) {
                     int i = WebData.Object.getInt(c, key);
                     loadedObject.put(key, i);

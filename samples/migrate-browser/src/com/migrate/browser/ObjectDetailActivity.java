@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.BaseColumns;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -32,14 +31,13 @@ public class ObjectDetailActivity extends Activity
     private static final String TAG = "DETAILS";
 
     private String schemaId;
+    // TODO: should get this from onSchemaLoaded to be more reactive instead of holding state
     private JSONObject jsonSchema;
     private String jsonSchemaString;
 
     private Map<String, EditText> fieldEditTextMap = new HashMap<String, EditText>();
 
-    private static final String[] PROJ = new String[] {
-            BaseColumns._ID
-    };
+    private String[] proj = null;
 
     class UpdateObject extends AsyncTask<Uri, Void, Void> {
         private final ContentResolver resolver;
@@ -104,12 +102,12 @@ public class ObjectDetailActivity extends Activity
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(this, objectUri, PROJ, null, null, null);
+        return new CursorLoader(this, objectUri, proj, null, null, null);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        populateView(cursor);
+        populateFields(cursor);
     }
 
     @Override
@@ -132,7 +130,8 @@ public class ObjectDetailActivity extends Activity
         }
 
         if (null != jsonSchemaString) {
-            jsonSchema = Schema.loadSchema(jsonSchemaString);
+            jsonSchema = SchemaHandler.loadSchema(jsonSchemaString);
+            proj = SchemaHandler.buildObjectProj(jsonSchema);
         }
 
         if (null != uri) {
@@ -256,19 +255,31 @@ public class ObjectDetailActivity extends Activity
         return nameList;
     }
 
-    private void populateView(Cursor c) {
+    private void populateFields(Cursor c) {
         if (!c.moveToNext()) {
             return;
         }
 
-        String[] cn = c.getColumnNames();
-        for (String n : cn) {
-            populateField(n, c);
+        Iterator fieldKeys = jsonSchema.keys();
+        ArrayList<String> fieldNameArray = toArray(fieldKeys);
+
+        for (String fieldName : fieldNameArray) {
+            try {
+                JSONObject jsonObject = jsonSchema.getJSONObject(fieldName);
+                String type = (String) jsonObject.get(WebData.Schema.JS_TYPE);
+                populateField(fieldName, type, c);
+
+
+            } catch (JSONException e) {
+                throw new IllegalStateException("Malformed json schema: ", e);
+            }
         }
     }
 
-    private void populateField(String n, Cursor c) {
-
+    private void populateField(String n, String type, Cursor c) {
+        String value = WebData.Object.getString(c, n);
+        EditText editText = fieldEditTextMap.get(n);
+        editText.setText(value);
     }
 
     private void goToObjects() {
