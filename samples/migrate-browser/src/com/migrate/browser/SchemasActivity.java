@@ -13,10 +13,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import net.migrate.api.SchemaManager;
 import net.migrate.api.WebData;
 
 public class SchemasActivity extends Activity
-    implements LoaderManager.LoaderCallbacks<Cursor>
+        implements LoaderManager.LoaderCallbacks<Cursor>
 {
     public static final String TAG = "SCHEMAS";
 
@@ -57,7 +58,16 @@ public class SchemasActivity extends Activity
             }
         });
 
-        getLoaderManager().initLoader(MigrateBrowserApplication.SCHEMAS_LOADER_ID, null, this);
+        SchemaManager adminManager = new SchemaManager(this, "*", "userNotSupportedYet",
+                new SchemaManager.SchemaLoaderListener() {
+                    @Override
+                    public void onSchemaLoaded(String s, boolean b) {
+                    }
+                }, true);
+        adminManager.initSchema();
+
+        getLoaderManager().initLoader(MigrateBrowserApplication.SCHEMAS_LOADER_ID, null,
+                SchemasActivity.this);
     }
 
     void showDetails(int pos) {
@@ -81,7 +91,8 @@ public class SchemasActivity extends Activity
         Log.d(TAG, "Creating all schemas loader: " + WebData.Schema.ADMIN_SCHEMA_CONTENT_URI);
         return new CursorLoader(
                 this,
-                WebData.Schema.ADMIN_SCHEMA_CONTENT_URI,
+                WebData.Schema.SCHEMA_CONTENT_URI,
+//                WebData.Schema.ADMIN_SCHEMA_CONTENT_URI,
                 PROJ,
                 null,
                 null,
@@ -92,7 +103,11 @@ public class SchemasActivity extends Activity
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         // getting a null pointer exception here
 
-        Log.d(TAG, "Content loaded: " + cursor.getCount());
+        if (cursor == null) {
+            Log.d(TAG, "Content loaded: null");
+        } else {
+            Log.d(TAG, "Content loaded: " + cursor.getCount());
+        }
         listAdapter.swapCursor(cursor);
     }
 
