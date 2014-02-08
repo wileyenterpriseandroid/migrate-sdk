@@ -5,8 +5,9 @@
 
     <property name="migrate.service.dir" value="${basedir}/../migrate"/>
     <property name="migrate.client.dir" value="${basedir}/../migrate-client/android/migrate-client"/>
+    <property name="migrate.browser.dir" value="${basedir}/samples/migrate-browser"/>
 
-    <property name="migrate.sdk.archive" value="migrate-sdk-beta"/>
+    <property name="migrate.sdk.artifact" value="migrate-sdk-beta"/>
 
     <property name="lib" value="lib"/>
     <property name="deps" value="deps"/>
@@ -15,8 +16,8 @@
     <property name="build.home" value="${basedir}/build"/>
     <property name="build.classes" value="${build.home}/classes"/>
     <property name="build.dist" value="${build.home}/dist"/>
-    <property name="build.dist.archive.dir" value="${build.home}/dist/${migrate.sdk.archive}"/>
-    <property name="build.dist.lib" value="${build.dist.archive.dir}/lib"/>
+    <property name="build.dist.artifact.dir" value="${build.home}/dist/${migrate.sdk.artifact}"/>
+    <property name="build.dist.lib" value="${build.dist.artifact.dir}/lib"/>
     <property name="build.dist.lib.api" value="${build.dist.lib}/api"/>
     <property name="build.dist.lib.impl" value="${build.dist.lib}/impl"/>
 
@@ -88,36 +89,44 @@
             <fileset dir="deps" includes="*.jar"/>
         </copy>
 
-        <copy todir="${build.dist.archive.dir}/">
+        <copy todir="${build.dist.artifact.dir}/">
             <fileset dir="${basedir}" includes="migrate-sdk.xml"/>
         </copy>
 
         <jar jarfile="${build.dist.lib.impl}/${name}.jar" basedir="${build.classes}"/>
     </target>
 
-    <target name="build-migrate-client">
+    <target name="build.migrate.client">
         <ant antfile="${migrate.client.dir}/build.xml" usenativebasedir="true" target="dist"/>
     </target>
 
-    <target name="build-migrate-service">
+    <target name="build.migrate.service">
         <ant antfile="${migrate.service.dir}/build.xml" usenativebasedir="true" target="dist"/>
     </target>
 
-    <target name="prepare" depends="build-migrate-service, build-migrate-client">
-        <copy file="${basedir}/migrate.xml" todir="${build.dist.archive.dir}"/>
+    <target name="build.migrate.browser">
+        <copy file="${lib}/migrate-api.jar" todir="${migrate.browser.dir}/libs"/>
 
-        <copy file="${migrate.service.dir}/dist/migrate.war" todir="${build.dist.archive.dir}"/>
+        <ant antfile="${migrate.browser.dir}/build.xml" usenativebasedir="true" target="dist"/>
+    </target>
+
+    <target name="prepare.deps" depends="build.migrate.service,build.migrate.client,build.migrate.browser">
+        <copy file="${basedir}/migrate.xml" todir="${build.dist.artifact.dir}"/>
+
+        <copy file="${migrate.service.dir}/dist/migrate.war" todir="${build.dist.artifact.dir}"/>
         <copy file="${migrate.service.dir}/dist/migrate-model.jar" todir="${build.home}"/>
 
         <copy file="${migrate.client.dir}/build/dist/libs/migrate-api.jar" todir="${lib}"/>
-        <copy file="${migrate.client.dir}/bin/migrate-client.apk" todir="${build.dist.archive.dir}"/>
+        <copy file="${migrate.client.dir}/bin/migrate-client.apk" todir="${build.dist.artifact.dir}"/>
+
+        <copy file="${migrate.browser.dir}/bin/migrate-browser.apk" todir="${build.dist.artifact.dir}"/>
     </target>
 
-    <target name="dist.full" depends="prepare,dist" >
-        <zip file="${build.dist}/${migrate.sdk.archive}.zip" basedir="${build.dist}" includes="${migrate.sdk.archive}/**/*"/>
+    <target name="dist.deps" depends="prepare.deps,dist" >
+        <zip file="${build.dist}/${migrate.sdk.artifact}.zip" basedir="${build.dist}" includes="${migrate.sdk.artifact}/**/*"/>
     </target>
 
-    <target name="dist.full.clean" depends="clean">
+    <target name="dist.deps.clean" depends="clean">
         <ant antfile="${migrate.client.dir}/build.xml" usenativebasedir="true" target="clean"/>
         <ant antfile="${migrate.service.dir}/build.xml" usenativebasedir="true" target="clean"/>
     </target>
