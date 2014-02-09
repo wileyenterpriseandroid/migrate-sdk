@@ -105,7 +105,7 @@
     </target>
 
     <target name="build.migrate.browser">
-        <copy file="${migrate.client.dir}/build/dist/libs/migrate-api.jar" todir="${lib}"/>
+        <copy file="${migrate.client.dir}/build/dist/libs/migrate-api.jar" todir="${migrate.browser.dir}/lib"/>
 
         <ant antfile="${migrate.browser.dir}/build.xml" usenativebasedir="true" target="dist"/>
     </target>
