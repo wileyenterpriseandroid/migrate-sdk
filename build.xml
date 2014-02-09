@@ -126,7 +126,7 @@
         <zip file="${build.dist}/${migrate.sdk.artifact}.zip" basedir="${build.dist}" includes="${migrate.sdk.artifact}/**/*"/>
     </target>
 
-    <target name="dist.deps.clean" depends="clean">
+    <target name="deps.clean" depends="clean">
         <ant antfile="${migrate.client.dir}/build.xml" usenativebasedir="true" target="clean"/>
         <ant antfile="${migrate.service.dir}/build.xml" usenativebasedir="true" target="clean"/>
     </target>
