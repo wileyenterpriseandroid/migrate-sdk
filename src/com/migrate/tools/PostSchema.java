@@ -4,6 +4,7 @@ import com.migrate.webdata.model.PersistentSchema;
 import com.migrate.webdata.model.PropertyIndex;
 import net.migrate.api.WebData;
 import net.migrate.api.annotations.WebDataSchema;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.charset.Charset;
 import java.util.*;
 
 /**
@@ -31,8 +33,9 @@ public class PostSchema {
     private static final String CP = "cp";
     private static final String DEST = "d";
     private static final String MIGRATE_URL = "migrateurl";
+    private static final String USERNAME = "username";
+    private static final String PASSWORD = "password";
     private static final String API_CLASSES = "api";
-    private static final String OUTPUT_DIR = "api";
 
     // TODO: constants that should live somewhere else
     private static final String TYPE = "type";
@@ -51,21 +54,34 @@ public class PostSchema {
 
     private static String SCHEMA_TYPE = "/schema/{schemaId}";
 
+    private static boolean isEmpty(String s) {
+        return (s == null) || (s.equals(""));
+    }
+
     public static void main(String[] args) throws Exception {
         Map<String, String> argMap = parseArgs(args);
 
         String cp = argMap.get(CP);
         String destDirectory = argMap.get(DEST);
         String migrateURL = argMap.get(MIGRATE_URL);
+        String username = argMap.get(USERNAME);
+        String password = argMap.get(PASSWORD);
         String apis = argMap.get(API_CLASSES);
 
-        if ((cp == null) || (apis == null)) {
+        System.out.println("PostSchema: cp: " + cp);
+        System.out.println("PostSchema: dest: " + destDirectory);
+        System.out.println("PostSchema: migrateURL: " + migrateURL);
+        System.out.println("PostSchema: username: " + username);
+        System.out.println("PostSchema: password: " + password);
+        System.out.println("PostSchema: api: " + apis);
+
+        if ((isEmpty(cp) || (isEmpty(apis)) || (isEmpty(username)) || (isEmpty(password)))) {
             usage();
             // does not happen
             return;
         }
 
-        if ((destDirectory == null) && (migrateURL == null)) {
+        if ((isEmpty(destDirectory)) && (isEmpty(migrateURL))) {
             usage();
             // does not happen
             return;
@@ -82,7 +98,7 @@ public class PostSchema {
 
         URLClassLoader apiLoader = new URLClassLoader(urls, ClassLoader.getSystemClassLoader());
 
-        postSchemasAndBuildContracts(apis, apiLoader, migrateURL, destDirectory);
+        postSchemasAndBuildContracts(apis, apiLoader, migrateURL, destDirectory, username, password);
     }
 
     private static Map<String, String> parseArgs(String[] args) {
@@ -105,7 +121,8 @@ public class PostSchema {
     }
 
     private static void postSchemasAndBuildContracts(String api, URLClassLoader apiLoader,
-                                                     String migrateURL, String destDirectory)
+                                                     String migrateURL, String destDirectory,
+                                                     String user, String pass)
             throws ClassNotFoundException, IOException, MalformedSchemaDeclarationException
     {
         String[] classElts = api.split(",");
@@ -115,7 +132,7 @@ public class PostSchema {
                 Class cl = Class.forName(clName, true, apiLoader);
                 PersistentSchema schema = readSchemaAndWriteContractAPI(cl, destDirectory);
                 if (migrateURL != null) {
-                    postSchema(schema, cl, migrateURL);
+                    postSchema(schema, cl, migrateURL, user, pass);
                 }
             }
         }
@@ -296,11 +313,11 @@ public class PostSchema {
         return null;
     }
 
-    private static void postSchema(PersistentSchema persistentSchema, Class apiClass, String dest)
+    private static void postSchema(PersistentSchema persistentSchema, Class apiClass,
+                                   String dest, String user, String pass)
             throws IOException, MalformedSchemaDeclarationException
     {
-        HttpHeaders header = new HttpHeaders();
-        header.add("content-type", "application/json");
+        HttpHeaders header = newSecureJsonHeaders(user, pass);
 
         // TODO: the slash must be present or the schema name is truncated to only the package...
         String migrateURL = dest + SCHEMA_TYPE + "/";
@@ -315,8 +332,23 @@ public class PostSchema {
         log.info(response.getBody());
     }
 
+    private static HttpHeaders newSecureJsonHeaders(String username, String password) {
+        HttpHeaders requestHeaders = new HttpHeaders();
+        requestHeaders.add("content-type", "application/json");
+
+        System.out.println("Username and password are: " + username +  ":" +  password);
+
+        String auth = username + ":" + password;
+        byte[] encodedAuth = Base64.encodeBase64(
+                auth.getBytes(Charset.forName("US-ASCII")));
+        String authHeader = "Basic " + new String( encodedAuth );
+        requestHeaders.add("Authorization", authHeader);
+
+        return requestHeaders;
+    }
+
     private static void usage() {
-        System.err.println("");
+        System.err.println("-cp <apiClasspath> -d <dest> -migrateurl <migrateurl> -username <username> -password <password>");
         System.exit(1);
     }
 }

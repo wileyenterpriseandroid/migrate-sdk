@@ -39,6 +39,8 @@
         <property name="contract.classpath" value=""/>
         <property name="contract.apis" value=""/>
         <property name="migrateURL" value=""/>
+        <property name="migrateUsername" value=""/>
+        <property name="migratePassword" value=""/>
 
         <java fork="true" failonerror="yes" classname="com.migrate.tools.PostSchema" classpathref="migrate-sdk.classpath">
             <classpath>
@@ -53,6 +55,11 @@
             <arg value="${contract.apis}"/>
             <arg value="-migrateURL"/>
             <arg value="${migrateURL}"/>
+            <arg value="-username"/>
+            <arg value="${migrateUsername}"/>
+            <arg value="-password"/>
+            <arg value="${migratePassword}"/>
+
         </java>
     </target>
 </project>

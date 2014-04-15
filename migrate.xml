@@ -93,6 +93,8 @@
             <param name="contract.classpath" value="${migrate.class.root}" />
             <param name="contract.apis" value="${migrate.object}" />
             <param name="migrateURL" value="${migrate.endpoint}" />
+            <param name="migrateUsername" value="${migrate.username}" />
+            <param name="migratePassword" value="${migrate.password}" />
         </antcall>
     </target>
 </project>
