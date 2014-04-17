@@ -1,7 +1,30 @@
 
 # The Migrate SDK.
 
+Its possible to work with the migrate SDK source repositories or the 
+binary SDK:
+
+- Binary SDK:
+
+You can obtain the Migrate binary SDK on the migate github wiki page:
+
+https://github.com/wileyenterpriseandroid/migrate/wiki
+
+Specificaly on the migrate releases page:
+
+https://github.com/wileyenterpriseandroid/migrate-sdk/releases/
+
 ## Getting the code
+
+If you choose to work witht the code checkout the repos:
+
+migrate-sdk
+migrate
+migrate-client
+EnterpriseAndroidExamples
+
+As listed on the following page:
+https://github.com/wileyenterpriseandroid
 
 The best way to download this code, along with the examples that support it,
 is by using the Repo tool.  Get it like this:
