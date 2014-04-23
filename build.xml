@@ -98,6 +98,7 @@
 
     <target name="build.migrate.client">
         <ant antfile="${migrate.client.dir}/build.xml" usenativebasedir="true" target="dist"/>
+        <ant antfile="${migrate.client.dir}/build-libs.xml" usenativebasedir="true" target="dist"/>
     </target>
 
     <target name="build.migrate.service">
@@ -130,4 +131,8 @@
         <ant antfile="${migrate.client.dir}/build.xml" usenativebasedir="true" target="clean"/>
         <ant antfile="${migrate.service.dir}/build.xml" usenativebasedir="true" target="clean"/>
     </target>
+
+    <!--Alias thats easier to remember?-->
+    <target name="dist.deps.clean" depends="deps.clean" />
+
 </project>
