@@ -304,9 +304,12 @@ public class ResolveObjectActivity extends Activity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 setSpinnerColor(spinner, conflictCheckBox);
                 if (isChecked) {
-                    resolved.put(fieldName, conflictSpinner.getSelectedItem());
+                    conflictSpinner.setEnabled(false);
+                    Object selectedItem = conflictSpinner.getSelectedItem(); // make spinner inactive
+                    resolved.put(fieldName, selectedItem);
                 } else {
-                    resolved.put(fieldName, null);
+                    conflictSpinner.setEnabled(true);
+                    resolved.put(fieldName, null);  // make spinner active
                 }
             }
         });
