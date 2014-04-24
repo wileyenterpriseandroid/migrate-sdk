@@ -150,6 +150,8 @@ public class PostSchema {
         String version = readVersion(apiClass, contractBuilder);
         version = "2";
 
+        // TODO: Is there a reason for this duplication?
+
         PersistentSchema persistentSchema = new PersistentSchema();
         persistentSchema.setWd_id(schemaClassName);
         persistentSchema.setWd_version(Long.valueOf(version));
@@ -163,7 +165,7 @@ public class PostSchema {
         addProperty(properties, WebData.Object.WD_DATA_ID, "string", true); // this is a data uuid
         addProperty(properties, WebData.Schema.WD_VERSION, "integer", true);
         addProperty(properties, WebData.Object.WD_DELETED, "integer", true);
-        addProperty(properties, WebData.Schema.WD_DATA_UPDATE_TIME, "long", true);
+        addProperty(properties, WebData.Schema.WD_UPDATE_TIME, "long", true);
         addProperty(properties, WebData.Schema.WD_NAMESPACE, "string");
         addProperty(properties, WebData.Schema.WD_CLASSNAME, "string");
 

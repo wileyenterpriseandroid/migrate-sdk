@@ -18,6 +18,8 @@
         <property name="contract.classpath" value=""/>
         <property name="contract.apis" value=""/>
         <property name="destinationDirectory" value=""/>
+        <property name="migrateUsername" value=""/>
+        <property name="migratePassword" value=""/>
 
         <java fork="true" failonerror="yes" classname="com.migrate.tools.PostSchema" classpathref="migrate-sdk.classpath">
             <classpath>
@@ -32,6 +34,10 @@
             <arg value="${contract.apis}"/>
             <arg value="-d"/>
             <arg value="${destinationDirectory}"/>
+            <arg value="-username"/>
+            <arg value="${migrateUsername}"/>
+            <arg value="-password"/>
+            <arg value="${migratePassword}"/>
         </java>
     </target>
 
