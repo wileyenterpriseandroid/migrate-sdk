@@ -112,6 +112,8 @@
     </target>
 
     <target name="prepare.deps" depends="build.migrate.service,build.migrate.client,build.migrate.browser">
+        <copy file="${basedir}/README.md" todir="${build.dist.artifact.dir}"/>
+
         <copy file="${basedir}/migrate.xml" todir="${build.dist.artifact.dir}"/>
         <copy file="${basedir}/migrate.properties" todir="${build.dist.artifact.dir}"/>
 

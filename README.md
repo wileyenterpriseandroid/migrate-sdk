@@ -16,12 +16,15 @@ https://github.com/wileyenterpriseandroid/migrate-sdk/releases/
 
 ## Getting the code
 
-If you choose to work witht the code checkout the repos:
+If you, OPTIONALLY, choose to work with the code checkout the repos:
 
 migrate-sdk
 migrate
 migrate-client
 EnterpriseAndroidExamples
+
+Note: We dont recommend that you try to work with the code until you 
+have had some success working with the binary version of the SDK.
 
 As listed on the following page:
 https://github.com/wileyenterpriseandroid
