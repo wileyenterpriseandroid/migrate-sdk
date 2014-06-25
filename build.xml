@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 
-<project xmlns:ivy="antlib:org.apache.ivy.ant" name="migratesdk" default="dist" basedir=".">
+<project xmlns:ivy="antlib:org.apache.ivy.ant" name="migratesdk" default="warn" basedir=".">
     <property name="name" value="migrate-sdk"/>
 
     <property name="migrate.service.dir" value="${basedir}/../migrate"/>
@@ -77,6 +77,13 @@
         <javac srcdir="${src}" destdir="${build.classes}">
             <classpath refid="compile.classpath"/>
         </javac>
+    </target>
+
+    <target name="warn" depends="dist">
+        <echo message="WARNING: If you only want to use the migrate binary SDK, please follow the ./README instructions for getting started. Building the SDK is for advanced users only."/>
+        <echo message=""/>
+        <echo message=""/>
+        <sleep seconds="10"/>
     </target>
 
     <target name="dist" depends="compile" description="Create binary distribution">
