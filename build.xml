@@ -128,7 +128,7 @@
         <copy file="${migrate.service.dir}/dist/migrate-model.jar" todir="${build.home}"/>
 
         <copy file="${migrate.client.dir}/build/dist/libs/migrate-api.jar" todir="${lib}"/>
-        <copy file="${migrate.client.dir}/bin/migrate-client.apk" todir="${build.dist.artifact.dir}"/>
+        <copy file="${migrate.client.dir}/migrate/build/outputs/apk/migrate-debug-unaligned.apk" todir="${build.dist.artifact.dir}"/>
 
         <copy file="${migrate.browser.dir}/bin/migrate-browser.apk" todir="${build.dist.artifact.dir}"/>
     </target>
