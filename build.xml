@@ -100,7 +100,7 @@
             <fileset dir="${basedir}" includes="migrate-sdk.xml"/>
         </copy>
 
-        <jar jarfile="${build.dist.lib.impl}/${name}.jar" basedir="${build.classes}"/>
+        <jar jarfile="${build.dist.lib.impl}/${name}.jar" basedir="${build.classes}" preserve0permissions="true"/>
     </target>
 
     <target name="build.migrate.client">
@@ -109,7 +109,7 @@
     </target>
 
     <target name="build.migrate.service">
-        <ant antfile="${migrate.service.dir}/build.xml" usenativebasedir="true" target="dist"/>
+        <ant antfile="${migrate.service.dir}/build.xml" usenativebasedir="true" target="local.dist"/>
     </target>
 
     <target name="build.migrate.browser">
@@ -121,6 +121,9 @@
     <target name="prepare.deps" depends="build.migrate.service,build.migrate.client,build.migrate.browser">
         <copy file="${basedir}/README.md" todir="${build.dist.artifact.dir}"/>
 
+        <copy file="${basedir}/tools/install.sh" todir="${build.dist.artifact.dir}"/>
+        <chmod file="${build.dist.artifact.dir}/install.sh" perm="755"/>
+
         <copy file="${basedir}/migrate.xml" todir="${build.dist.artifact.dir}"/>
         <copy file="${basedir}/migrate.properties" todir="${build.dist.artifact.dir}"/>
 
@@ -128,7 +131,7 @@
         <copy file="${migrate.service.dir}/dist/migrate-model.jar" todir="${build.home}"/>
 
         <copy file="${migrate.client.dir}/build/dist/libs/migrate-api.jar" todir="${lib}"/>
-        <copy file="${migrate.client.dir}/migrate/build/outputs/apk/migrate-debug-unaligned.apk" todir="${build.dist.artifact.dir}"/>
+        <copy file="${migrate.client.dir}/migrate/build/outputs/apk/migrate-debug-unaligned.apk" tofile="${build.dist.artifact.dir}/migrate-client.apk"/>
 
         <copy file="${migrate.browser.dir}/bin/migrate-browser.apk" todir="${build.dist.artifact.dir}"/>
     </target>
@@ -144,5 +147,9 @@
 
     <!--Alias thats easier to remember?-->
     <target name="dist.deps.clean" depends="deps.clean" />
+
+    <target name="dist.deps.local.install" depends="deps.clean,dist.deps">
+        <exec executable="${build.dist.artifact.dir}/install.sh"/>
+    </target>
 
 </project>
