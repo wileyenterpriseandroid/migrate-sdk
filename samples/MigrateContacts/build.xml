@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="migrate-client" default="dist">
+    <target name="dist">
+        <exec executable="./gradlew">
+            <arg value="build"/>
+        </exec>
+    </target>
+
+    <target name="clean">
+        <echo message="Running gradle clean..."/>
+        <exec executable="./gradlew">
+            <arg value="clean"/>
+        </exec>
+    </target>
+
+</project>

@@ -8,12 +8,12 @@ function scriptDir() {
 
 scriptDir=`scriptDir`
 
-if [ -z "$TOMCAT_HOME" ] ; then
-echo Please set TOMCAT_HOME
+if [ -z "$CATALINA_HOME" ] ; then
+echo Please set CATALINA_HOME
 exit 0
 fi
 
-cd $TOMCAT_HOME
+cd $CATALINA_HOME
 ./bin/shutdown.sh
 
 rm -rf ./webapps/migrate/

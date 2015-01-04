@@ -9,6 +9,8 @@
 
     <property name="migrate.sdk.artifact" value="migrate-sdk-beta"/>
 
+    <property name="samples" value="${basedir}/samples"/>
+
     <property name="lib" value="lib"/>
     <property name="deps" value="deps"/>
     <property name="src" value="src"/>
@@ -87,7 +89,12 @@
     </target>
 
     <target name="dist" depends="compile" description="Create binary distribution">
+
         <mkdir dir="${build.dist.lib.impl}"/>
+
+        <copy todir="${build.dist.artifact.dir}">
+            <fileset dir="${basedir}" includes="samples/**/*"/>
+        </copy>
 
         <copy todir="${build.dist.lib.api}/">
             <fileset dir="lib" includes="*.jar"/>
@@ -141,6 +148,9 @@
     </target>
 
     <target name="deps.clean" depends="clean">
+        <ant antfile="${samples}/migrate-browser/build.xml" usenativebasedir="true" target="clean"/>
+        <ant antfile="${samples}/MigrateContacts/build.xml" usenativebasedir="true" target="clean"/>
+
         <ant antfile="${migrate.client.dir}/build.xml" usenativebasedir="true" target="clean"/>
         <ant antfile="${migrate.service.dir}/build.xml" usenativebasedir="true" target="clean"/>
     </target>
