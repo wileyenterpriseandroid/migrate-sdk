@@ -1,11 +1,7 @@
 
-# The Migrate SDK.
+# Getting started with the project migrate SDK:
 
-Its possible to work with the binary migrate SDK or the migrate source repositories:
-
-- Binary SDK (Recommended):
-
-You can obtain the Migrate binary SDK on the migate github wiki page:
+You can obtain the Migrate binary SDK on the migrate github wiki page:
 
 https://github.com/wileyenterpriseandroid/migrate/wiki
 

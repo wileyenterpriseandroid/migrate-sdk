@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="MigrateContacts" default="generateContract" >
+    <!-- Allow user specific configuration -->
+    <property file="${user.home}/.${ant.project.name}.properties" />
+    <property file="${user.home}/.build.properties" />
+
+    <!-- 
+       C O N F I G U R A T I O N
+
+       Migrate properties can be specified by editing this file (NOT recommended),
+       in migrate.properties, or on the command line.
+       There is a copy of a typical migrate.properties file in the tools
+       directory (./tools).  Copy it to the project root and modify it as necessary,
+       to suit your system.  When you have it set up, type:
+
+       $ ant -f migrate.xml
+
+       ... to build the Contract file in the gen directory
+
+       To specify the necessary properties on the command line use the -D flag
+
+       $ ant -Dmigrate.sdk.root=../../migrate-sdk  ...
+
+       You may supply as many -D flags as you like.  They override values defined
+       in the migrate.properties file.
+    -->
+    <property file="${basedir}/migrate.properties" />
+
+    <!-- The location of the Migrate SDK: specify in migrate.properties  -->
+    <property name="migrate.sdk.root" value="" />
+
+    <!-- The endpoint for the Migrate Service -->
+    <property name="migrate.endpoint" value="" />
+
+    <!-- The fqn for the class that defines the migrate schema: specify in migrate.properties  -->
+    <property name="migrate.object" value="" />
+
+    <!-- The root of the directory containing the template interface: specify in migrate.properties  -->
+    <property name="migrate.class.root" value="bin/classes/" />
+
+    <!-- The directory into which the Contract file will be put -->
+    <property name="migrate.gen.root" value="gen" />
+
+    <property name="migrate.username" value="" />
+    <property name="migrate.password" value="" />
+
+    <!--  END OF USER CONFIGURATION SECTION -->
+
+    <!-- check on migrate.sdk.root -->
+    <fail message="Can't find the Migrate SDK (${migrate.sdk.root}).  Please set the property migrate.sdk.root to point at the root of the migrate SDK">
+        <condition>
+            <not>
+                <resourceexists>
+                    <file file="${migrate.sdk.root}" />
+                </resourceexists>
+            </not>
+        </condition>
+    </fail>
+
+    <import file="${migrate.sdk.root}/migrate-sdk.xml" />
+
+    <!-- check on migrate.class.root -->
+    <fail message="Can't find the java class directory (${migrate.class.root}).  Please set the property migrate.class.root to point at the root of java compiler output">
+        <condition>
+            <not>
+                <resourceexists>
+                    <file file="${migrate.class.root}" />
+                </resourceexists>
+            </not>
+        </condition>
+    </fail>
+
+    <!-- check on migrate.gen.root -->
+    <fail message="Can't find the generated java directory (${migrate.gen.root}).  Please set the property migrate.gen.root to point at the android 'gen' directory">
+        <condition>
+            <not>
+                <resourceexists>
+                    <file file="${migrate.gen.root}" />
+                </resourceexists>
+            </not>
+        </condition>
+    </fail>
+
+    <!-- check on migrate.username -->
+    <fail message="Please supply basic auth migrate.username for posting schema to a migrate instance.">
+        <condition>
+            <or>
+                <equals arg1="${migrate.username}" arg2=""/>
+                <not>
+                    <isset property="migrate.username"/>
+                </not>
+            </or>
+        </condition>
+    </fail>
+
+    <!-- check on migrate.password -->
+    <fail message="Please supply basic auth migrate.password for posting schema to a migrate instance.">
+        <condition>
+            <or>
+                <equals arg1="${migrate.password}" arg2=""/>
+                <not>
+                    <isset property="migrate.password"/>
+                </not>
+            </or>
+        </condition>
+    </fail>
+
+    <target name="generateContract"
+            description="Generate the ContentProvider contract">
+        <echo>Generating Contract for ${migrate.object} from ${migrate.class.root} to ${migrate.gen.root}</echo>
+        <antcall target="sdk.generateContract">
+            <param name="contract.classpath" value="${migrate.class.root}" />
+            <param name="contract.apis" value="${migrate.object}" />
+            <param name="destinationDirectory" value="${migrate.gen.root}" />
+            <param name="migrateUsername" value="${migrate.username}" />
+            <param name="migratePassword" value="${migrate.password}" />
+        </antcall>
+    </target>
+
+    <target name="postSchema" description="Post a schema to remote migrate service">
+        <antcall target="sdk.postSchema">
+            <param name="contract.classpath" value="${migrate.class.root}" />
+            <param name="contract.apis" value="${migrate.object}" />
+            <param name="migrateURL" value="${migrate.endpoint}" />
+            <param name="migrateUsername" value="${migrate.username}" />
+            <param name="migratePassword" value="${migrate.password}" />
+        </antcall>
+    </target>
+</project>

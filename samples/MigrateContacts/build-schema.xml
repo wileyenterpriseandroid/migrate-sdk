@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="build-schema" default="buildSchema" basedir=".">
+    <property name="app.home" value="${basedir}/app" />
+    <property name="libs" value="${app.home}/libs" />
+
+    <property name="src.schema" value="${basedir}/src-schema" />
+
+    <property name="build.home" value="${basedir}/build" />
+    <property name="build.classes" value="${build.home}/classes-schema" />
+
+    <property file="${basedir}/migrate.properties"/>
+
+    <path id="api.classpath">
+        <fileset dir="${libs}">
+            <include name="migrate-api.jar"/>
+        </fileset>
+    </path>
+
+    <target name="compile">
+        <mkdir dir="${build.classes}"/>
+
+        <javac srcdir="${src.schema}" destdir="${build.classes}">
+            <classpath refid="api.classpath"/>
+        </javac>
+
+        <jar jarfile="${libs}/migratecontacts.jar" basedir="${build.classes}" />
+
+    </target>
+
+    <target name="buildSchema" depends="compile">
+    </target>
+
+    <target name="clean">
+        <delete dir="${build.home}"/>
+    </target>
+</project>
