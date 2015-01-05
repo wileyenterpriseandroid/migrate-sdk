@@ -93,7 +93,14 @@
         <mkdir dir="${build.dist.lib.impl}"/>
 
         <copy todir="${build.dist.artifact.dir}">
-            <fileset dir="${basedir}" includes="samples/**/*"/>
+            <fileset dir="${basedir}">
+                <patternset>
+                    <include name="samples/**/*"/>
+                    <exclude name="samples/migrate-browser"/>
+                    <exclude name="samples/migrate-browser/*"/>
+                    <exclude name="samples/migrate-browser/**/*"/>
+                </patternset>
+            </fileset>
         </copy>
 
         <copy todir="${build.dist.lib.api}/">
