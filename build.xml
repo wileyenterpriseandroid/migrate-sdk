@@ -135,8 +135,10 @@
     <target name="prepare.deps" depends="build.migrate.service,build.migrate.client,build.migrate.browser">
         <copy file="${basedir}/README.md" todir="${build.dist.artifact.dir}"/>
 
-        <copy file="${basedir}/tools/install.sh" todir="${build.dist.artifact.dir}"/>
-        <chmod file="${build.dist.artifact.dir}/install.sh" perm="755"/>
+        <copy file="${basedir}/tools/install_client.sh" todir="${build.dist.artifact.dir}"/>
+        <copy file="${basedir}/tools/install_service.sh" todir="${build.dist.artifact.dir}"/>
+        <chmod file="${build.dist.artifact.dir}/install_client.sh" perm="755"/>
+        <chmod file="${build.dist.artifact.dir}/install_service.sh" perm="755"/>
 
         <copy file="${basedir}/migrate.xml" todir="${build.dist.artifact.dir}"/>
         <copy file="${basedir}/migrate.properties" todir="${build.dist.artifact.dir}"/>
@@ -166,7 +168,8 @@
     <target name="dist.deps.clean" depends="deps.clean" />
 
     <target name="dist.deps.local.install" depends="deps.clean,dist.deps">
-        <exec executable="${build.dist.artifact.dir}/install.sh"/>
+        <exec executable="${build.dist.artifact.dir}/install_client.sh"/>
+        <exec executable="${build.dist.artifact.dir}/install_service.sh"/>
     </target>
 
 </project>
