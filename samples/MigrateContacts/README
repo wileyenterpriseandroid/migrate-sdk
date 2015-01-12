@@ -47,7 +47,7 @@ Follow the instructions in migrate.xml. Note that for the MigrateContacts
 SDK sample, you likely wont need to edit migrate.properties, its already
 been copied to the MigrateContacts directory and edited so that it will work
 "out of the box" with Android studio. However, the instructions below
-are written so that you will know what the relevant files to copy and
+are written so that you will know the relevant files to copy and
 edit when you create your own migrate application.
 
 cd $MIGRATE_SDK/samples/MigrateContacts
@@ -65,7 +65,7 @@ cp $MIGRATE_SDK/tools/migrate.properties .
 
 For MigrateContacts, the file is already edited.
 
-Set the location the migrate sdk in this file as follows:
+Set the location of the migrate sdk in this file as follows:
 
 migrate.sdk.root=$MIGRATE_SDK
 
@@ -96,7 +96,7 @@ build/classes-schema/com/enterpriseandroid/migratecontacts/Contact.class
 --------------------------------------------------
 Generate the schema contract:
 
-First, make sure the Android generated source directory exists. For MigrateContacts
+First, make sure the Android source directory exists. For MigrateContacts
 it already does, just use, $MIGRATE_SDK/samples/app/src (its already configured as
 app/src/main/java).
 
