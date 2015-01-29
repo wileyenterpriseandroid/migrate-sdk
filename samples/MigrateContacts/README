@@ -122,7 +122,7 @@ in step 4.
 
 - Test your posted schema, by using curl to retrieve it:
 
-curl -X GET http://projectmigrate.com/schema/com.enterpriseandroid.migratecontacts.Contact
+curl -X GET http://beta.projectmigrate.com/schema/com.enterpriseandroid.migratecontacts.Contact
 
 Should return:
 
@@ -137,7 +137,7 @@ the emulator from Android studio. Once its running, install the Migrate client A
 $MIGRATE_SDK/install_client.sh
 
 The binary client in the SDK assumes that the service uses the beta instance,
-http://projectmigrate.com/ . If you run your own instance, you
+http://beta.projectmigrate.com/ . If you run your own instance, you
 will need to use the android Emulator host (10.0.2.2), or localhost.
 
 On success, you will see a Toast that says, "Migrate is up!" Next you

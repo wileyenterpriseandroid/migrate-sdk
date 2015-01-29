@@ -43,7 +43,7 @@ The migrate backend service supports generic migrate synchronization persistence
 Its recommended to simply use the projectmigrate beta service at the following URL:
 
 ```
-http://projectmigrate.com/
+http://beta.projectmigrate.com/
 ```
 
 This url is the default when configuring a migrate client account in Android. You
@@ -78,7 +78,7 @@ Settings -> Accounts/Add Account(+) -> ProjectMigrate SyncAdapter
 Fill out the sign-in screen using the appropriate migrate url, as following:
 
 ```
-http://projectmigrate.com/
+http://beta.projectmigrate.com/
 ```
 
 For a local tomcat installation use:
