@@ -87,7 +87,8 @@ public class ContactDetailActivity extends Activity
                     "Failed to initialize schema: " + ContactContract.SCHEMA_ID
                             + " @ " + ContactContract.SCHEMA_CONTACT_URI);
 
-            // add failure handling code
+            Toast.makeText(ContactDetailActivity.this,
+                    R.string.activity_contacts_is_provider_installed, Toast.LENGTH_LONG).show();
 
             return;
         }

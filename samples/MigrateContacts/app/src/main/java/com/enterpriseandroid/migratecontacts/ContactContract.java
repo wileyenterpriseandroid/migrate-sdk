@@ -20,8 +20,8 @@ public final class ContactContract {
         private Columns() {}
 
         public static final String FIRSTNAME = "firstname";
-        public static final String LASTNAME = "lastname";
         public static final String EMAIL = "email";
         public static final String PHONE_NUMBER = "phoneNumber";
+        public static final String LASTNAME = "lastname";
     }
 }

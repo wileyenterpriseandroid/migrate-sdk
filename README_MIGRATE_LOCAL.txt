@@ -4,7 +4,7 @@ Optionally run the migrate service using Tomcat:
 This file explains how to run and configure an instance of migrate on
 your local machine, if you dont want to use the migrate instance at:
 
-http://project-migrate-beta.appspot.com/
+http://projectmigrate.com.com/
 
 -----
 

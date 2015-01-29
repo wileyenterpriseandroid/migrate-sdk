@@ -97,8 +97,8 @@ build/classes-schema/com/enterpriseandroid/migratecontacts/Contact.class
 Generate the schema contract:
 
 First, make sure the Android source directory exists. For MigrateContacts
-it already does, just use, $MIGRATE_SDK/samples/app/src (its already configured as
-app/src/main/java).
+it already does, just use, $MIGRATE_SDK/samples/MigrateContacts/app/src (its already configured as
+$MIGRATE_SDK/samples/MigrateContacts/app/src/main/java).
 
 - The following command creates a data API for your Android application 
 using the class from the previous step:
@@ -122,7 +122,7 @@ in step 4.
 
 - Test your posted schema, by using curl to retrieve it:
 
-curl -X GET http://project-migrate-beta.appspot.com/schema/com.enterpriseandroid.migratecontacts.Contact
+curl -X GET http://projectmigrate.com/schema/com.enterpriseandroid.migratecontacts.Contact
 
 Should return:
 
@@ -137,7 +137,7 @@ the emulator from Android studio. Once its running, install the Migrate client A
 $MIGRATE_SDK/install_client.sh
 
 The binary client in the SDK assumes that the service uses the beta instance,
-http://project-migrate-beta.appspot.com/ . If you run your own instance, you
+http://projectmigrate.com/ . If you run your own instance, you
 will need to use the android Emulator host (10.0.2.2), or localhost.
 
 On success, you will see a Toast that says, "Migrate is up!" Next you
