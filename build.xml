@@ -92,16 +92,11 @@
 
         <mkdir dir="${build.dist.lib.impl}"/>
 
-        <copy todir="${build.dist.artifact.dir}">
-            <fileset dir="${basedir}">
-                <patternset>
-                    <include name="samples/**/*"/>
-                    <exclude name="samples/migrate-browser"/>
-                    <exclude name="samples/migrate-browser/*"/>
-                    <exclude name="samples/migrate-browser/**/*"/>
-                </patternset>
-            </fileset>
-        </copy>
+        <exec executable="cp">
+            <arg value="-r"/>
+            <arg value="samples"/>
+            <arg value="${build.dist.artifact.dir}"/>
+        </exec>
 
         <copy todir="${build.dist.lib.api}/">
             <fileset dir="lib" includes="*.jar"/>
@@ -153,7 +148,13 @@
     </target>
 
     <target name="dist.deps" depends="prepare.deps,dist" >
-        <zip file="${build.dist}/${migrate.sdk.artifact}.zip" basedir="${build.dist}" includes="${migrate.sdk.artifact}/**/*"/>
+        <!--Build the final jar.-->
+        <!--Thank you Java for not preserving file perms. Ugh...-->
+        <exec executable="zip" dir="${build.dist}" >
+            <arg value="-r"/>
+            <arg value="${migrate.sdk.artifact}.zip"/>
+            <arg value="${migrate.sdk.artifact}"/>
+        </exec>
     </target>
 
     <target name="deps.clean" depends="clean">
