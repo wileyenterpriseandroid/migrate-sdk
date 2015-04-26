@@ -92,6 +92,9 @@
 
         <mkdir dir="${build.dist.lib.impl}"/>
 
+        <exec dir="samples/MigrateContacts" command="ant clean"/>
+        <exec dir="samples/migrate-browser" command="ant clean"/>
+
         <exec executable="cp">
             <arg value="-r"/>
             <arg value="samples"/>
